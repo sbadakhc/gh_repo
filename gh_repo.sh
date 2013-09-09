@@ -90,7 +90,6 @@ done
 	else
 	    repo_sync
 	fi
-done
     ;;
 build)  echo  "Building sources"
 	# Build sources
