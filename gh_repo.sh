@@ -110,7 +110,7 @@ deploy)	 if [ -f "$APROX_WAR $DEPLOY_DIR/aprox.war" ]; then
               sudo cp -p $APROX_WAR $DEPLOY_DIR
               sudo systemctl start jboss-as.service
          else
-                    echo "War not found...See build log"
+                    echo "War not found."
          fi
 
     ;;
