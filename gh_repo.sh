@@ -32,7 +32,7 @@ PWD=`pwd`
 APROX_WAR=${APROX_WAR:=$PWD/aprox/wars/savant/target/aprox.war}
 DEPLOY_DIR=${DEPLOY_DIR:=/var/lib/jboss-as/standalone/deployments/}
 WORKSPACE=${WORKSPACE:=$HOME/workspace}
-USER=${USER:=$USER}
+USER=$USER # Define GitHub username here.
 MAINTAINER=${MAINTAINER:=SomeMaintainer}
 
 # Debugging (comment out if not required)
@@ -111,7 +111,7 @@ deploy)	 if [ -f "$APROX_WAR $DEPLOY_DIR/aprox.war" ]; then
               sudo cp -p $APROX_WAR $DEPLOY_DIR
               sudo systemctl start jboss-as.service
          else
-                    echo "War not found."
+                    echo "War not found"
          fi
 
     ;;
