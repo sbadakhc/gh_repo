@@ -6,10 +6,7 @@
 #
 # clone   : a regular git clone of the upstream repo
 # sync    : syncs a forked repo with upstream repo
-# build   : executes a maven build
-# deploy  : deploys the built war to the deployment dir
-# scratch : removes the local maven repo and executes targets 
-#           sync, build and deploy 
+# scratch : removes the local maven repo and executes sync target 
 # info    : provides repo information for trouble-shooting
 #
 # Notes on workflow:
@@ -29,8 +26,6 @@
 REPOS="SomeRepo1 SomeRepo2 SomeRepo3"
 UPSTREAM=`git config -l | grep upstream`
 PWD=`pwd`
-APROX_WAR=${APROX_WAR:=$PWD/aprox/wars/savant/target/aprox.war}
-DEPLOY_DIR=${DEPLOY_DIR:=/var/lib/jboss-as/standalone/deployments/}
 WORKSPACE=${WORKSPACE:=$HOME/workspace}
 USER=$USER # Define GitHub username here.
 MAINTAINER=${MAINTAINER:=SomeMaintainer}
@@ -41,7 +36,7 @@ set -x
 # Usage targets
 if [ $# -lt 1 ]
 then
-        echo "Usage : $0 {clone|sync|build|deploy|scratch|info}"
+        echo "Usage : $0 {clone|sync|scratch|info}"
         exit
 fi
 
@@ -92,29 +87,6 @@ done
 	    repo_sync
 	fi
     ;;
-build)  echo  "Building sources"
-	# Build sources
-	for repo in $REPOS
-	    do
-		echo -e "Building $repo"
-		cd $repo
-		#mvn clean install 
-		mvn -Dmaven.test.skip=true clean install
-		cd -
-	done
-
-    ;;
-deploy)	 if [ -f "$APROX_WAR $DEPLOY_DIR/aprox.war" ]; then
-              echo "Deploying war"
-	      sudo systemctl stop jboss-as.service
-	      sudo rm -rf $DEPLOY_DIR/aprox*
-              sudo cp -p $APROX_WAR $DEPLOY_DIR
-              sudo systemctl start jboss-as.service
-         else
-                    echo "War not found"
-         fi
-
-    ;;
 scratch) echo  "Deploying from scratch"
         set -x
 	for repo in $REPOS
@@ -123,9 +95,6 @@ scratch) echo  "Deploying from scratch"
 
 	rm -rf ~/.m2
 	$0 sync
-        $0 build
-	$0 deploy
-
    ;;
 info) echo "Retrieving repo info"
       for repo in $REPOS
@@ -139,7 +108,7 @@ info) echo "Retrieving repo info"
               cd -
         done
   ;; 
-*) echo "Usage : $0 {clone|sync|build|deploy|scratch|info}"
+*) echo "Usage : $0 {clone|sync|scratch|info}"
    ;;
 esac
 
