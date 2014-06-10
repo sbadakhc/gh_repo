@@ -41,4 +41,4 @@ configured as required to allow for extra build time Maven options.
 Known Issues
 ------------
 
-Fixed (140913) - Currently the script makes use of the $USER environment varibles which makes the assumption that the *NIX user is the same as the GitHub user.
+https://github.com/sbadakhc/gh_repo/issues
