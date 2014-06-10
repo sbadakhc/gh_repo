@@ -24,7 +24,7 @@
  
 # Environment varibles
 REPOS="SomeRepo1 SomeRepo2 SomeRepo3"
-UPSTREAM=`git config -l | grep upstream`
+UPSTREAM=$(git config -l | grep upstream)
 PWD=`pwd`
 WORKSPACE=${WORKSPACE:=$HOME/workspace}
 USER=$USER # Define GitHub username here.
