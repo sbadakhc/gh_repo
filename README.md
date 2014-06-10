@@ -35,11 +35,10 @@ mv gh_repo.sh JohnDoe-repos
 Configuration Notes
 -------------------
 
-The key environment varibles that need to be passed are $REPO and $MAINTAINER respectively.  The build option can also be
+The key environment varibles that need to be passed are $REPOS and $MAINTAINER respectively.  The build option can also be
 configured as required to allow for extra build time Maven options.
 
 Known Issues
 ------------
 
-Fixed (140913) - Currently the script makes use of the $USER environment varibles which makes the assumption that the *NIX user is the same
-as the GitHub user.
+Fixed (140913) - Currently the script makes use of the $USER environment varibles which makes the assumption that the *NIX user is the same as the GitHub user.
