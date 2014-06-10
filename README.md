@@ -4,9 +4,7 @@ gh_repo
 GitHub forked repository management script.
 
 This script is used to syncronise forked GitHub repositories with their upsteam counterparts.  It makes sure your GitHub
-forks are aligned with the upstream repositories you are following.  The script also provides options to build and deploy
-application for use with Maven Java builds.
-
+forks are aligned with the upstream repositories you are following.
 
 Installation Prerequisites
 ---------------------------
@@ -24,7 +22,7 @@ Installation Instructions
 Configuration Notes
 -------------------
 
-The key environemnt varibles that need to be passed are $REPO and $MAINTAINER respectively.  The build option can also be
+The key environment varibles that need to be passed are $REPO and $MAINTAINER respectively.  The build option can also be
 configured as required to allow for extra build time Maven options.
 
 Known Issues
