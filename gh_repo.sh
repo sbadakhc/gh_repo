@@ -113,10 +113,10 @@ info) echo "Retrieving repo info"
 ;; 
 size) echo -e "Retrieving repo size"
     for repo in ${REPOS}; do
+        echo -e "Repo size for ${repo}"
         cd ${repo}
+        OBJECTS=$(git verify-pack -v .git/objects/pack/pack-*.idx | grep -v chain | sort -k3nr | head)
         IFS=$'\n';
-        objects=$(git verify-pack -v .git/objects/pack/pack-*.idx | grep -v chain | sort -k3nr | head)
-         
         OUTPUT="SIZE,PACK,REV,LOCATION"
             for obj in $OBJECTS; do
                 # Get the size in bytes
@@ -127,6 +127,7 @@ size) echo -e "Retrieving repo size"
                 LIST=$(git rev-list --all --objects | grep $REV)
                 OUTPUT="${OUTPUT}\n${SIZE},${COMPSIZE},${LIST}"
             done
+    cd -
     done
     echo -e $OUTPUT | column -t -s ', '
 ;;
