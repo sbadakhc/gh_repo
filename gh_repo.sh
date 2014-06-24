@@ -36,7 +36,7 @@ set -x
 # Usage targets
 if [ $# -lt 1 ]
 then
-        echo "Usage : $0 {clone|sync|scratch|info}"
+        echo "Usage : $0 {clone|sync|scratch|info|size}"
         exit
 fi
 
@@ -53,7 +53,7 @@ clone) echo "Cloning repos"
     ;;
 sync)  echo "Syncing repos"
 
-function repo_sync {
+function sync {
     cd ${repo}
     TAG=$(git describe --abbrev=0 --tags)
     git fetch upstream
@@ -86,9 +86,9 @@ done
     if [ -z "${UPSTREAM}" ]; then
         echo "Initialising Upstream"
         git remote add upstream https://github.com/${MAINTAINER}/${repo}.git
-        repo_sync
+        sync
     else
-        repo_sync
+        sync
     fi
     ;;
 scratch) echo  "Deploying from scratch"
@@ -111,6 +111,25 @@ info) echo "Retrieving repo info"
         cd -
     done
 ;; 
+size) echo -e "Retrieving repo size"
+    for repo in ${REPOS}; do
+        cd ${repo}
+        IFS=$'\n';
+        objects=$(git verify-pack -v .git/objects/pack/pack-*.idx | grep -v chain | sort -k3nr | head)
+         
+        OUTPUT="SIZE,PACK,REV,LOCATION"
+            for obj in $OBJECTS; do
+                # Get the size in bytes
+                SIZE=$((`echo $obj | cut -f 5 -d ' '`/1024))
+                COMPSIZE=$((`echo $obj | cut -f 6 -d ' '`/1024))
+                # Get the revision
+                REV=$(echo $obj | cut -f 1 -d ' ')
+                LIST=$(git rev-list --all --objects | grep $REV)
+                OUTPUT="${OUTPUT}\n${SIZE},${COMPSIZE},${LIST}"
+            done
+    done
+    echo -e $OUTPUT | column -t -s ', '
+;;
 *) echo "Usage : $0 {clone|sync|scratch|info}"
    ;;
 esac
