@@ -31,8 +31,8 @@ WORKSPACE=${WORKSPACE:=$HOME/workspace}
 USER=$USER # Define GitHub username here.
 MAINTAINER=${MAINTAINER:=SomeMaintainer}
 
-# Debugging (comment out if not required)
-set -x
+# Uncomment to enable debugging
+#set -x
 
 # Usage targets
 if [ $# -lt 1 ]
