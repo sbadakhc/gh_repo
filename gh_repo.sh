@@ -8,13 +8,14 @@
 # sync    : syncs a forked repo with upstream repo
 # scratch : removes the local maven repo and executes sync target 
 # info    : provides repo information for trouble-shooting
+# size    : provides repo obejct size information
 #
 # Notes on workflow:
 #
-# Copy this script into your desired workspace and execute from there to 
-# retrive the required repos.  The "scratch" target should be executed when 
-# running the script for the first time.  It should be sufficient to run the 
-# "sync", "build" and "deploy" targets afterwards.  The "clone" and "info"
+# Copy this script into your desired workspace and execute from there with 
+# the clone target to retrive the required repos.  The "scratch" target 
+# should be executed when running the script for the first time.  It should
+# be sufficient to run the "sync" target afterwards.  The "info" and "size"
 # targets are useful for verfication and trouble-shooting.
 #
 # Warning: 
