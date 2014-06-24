@@ -107,7 +107,7 @@ info) echo "Retrieving repo info"
         cd ${repo}
         git remote -v
         git branch
-        git tag
+        git tag | tail -1
         git rev-parse HEAD
         cd -
     done
