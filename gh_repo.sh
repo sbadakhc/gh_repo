@@ -19,12 +19,12 @@
 # targets are useful for verfication and trouble-shooting.
  
 # Environment varibles
-REPOS="SomeRepo1 SomeRepo2 SomeRepo3"
+REPOS="<repo1> <repo2>" # Replace with your git hub repos
 UPSTREAM=$(git config -l | grep upstream)
 PWD=`pwd`
 WORKSPACE=${WORKSPACE:=$HOME/workspace}
 USER=$USER # Define GitHub username here.
-MAINTAINER=${MAINTAINER:=SomeMaintainer}
+MAINTAINER=${MAINTAINER:=<maintainer>} # Replace with maintainer
 
 # Uncomment to enable debugging
 #set -x
@@ -44,37 +44,38 @@ clone) echo "Cloning repos"
         cd ${repo}
         git remote set-url origin https://github.com/${USER}/${repo}.git
         git remote add upstream https://github.com/${USER}/${repo}.git
-        cd -
+        cd $WORKSPACE
     done
     ;;
 sync)  echo "Syncing repos"
 
 function sync {
-    cd ${repo}
-    TAG=$(git describe --abbrev=0 --tags)
-    git fetch upstream
-    git checkout master
-    git merge upstream/master
-    git push -f origin master --tags
-    cd -
-    echo
+    for repo in ${REPOS}; do
+        cd ${repo}
+        TAG=$(git describe --abbrev=0 --tags)
+        git fetch upstream
+        git checkout master
+        git merge upstream/master
+        git push -f origin master --tags
+        cd -
+        echo
+    done
 }   
 
 # Update repos
-for repo in ${REPOS}
-    do
-    if [ -d ${repo} ]; then
-        echo -e "Updating ${repo}"
-        cd ${repo}
-        git config credential.helper store
-        git pull
-        cd -
-        echo
-    else
-        echo -e "Cloning ${repo}"
-        git clone https://github.com/$USER/$repo.git
-    fi 
-done
+    for repo in ${REPOS}; do
+        if [ -d ${repo} ]; then
+            echo -e "Updating ${repo}"
+            cd ${repo}
+            git config credential.helper store
+            git pull
+            cd -
+            echo
+        else
+            echo -e "Cloning ${repo}"
+            git clone https://github.com/$USER/$repo.git
+        fi 
+    done
 
 # Sync with upstream
     echo -e "Syncronising ${repo}"
